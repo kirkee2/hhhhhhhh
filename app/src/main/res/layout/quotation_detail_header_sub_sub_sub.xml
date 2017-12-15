@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/basement"
+    android:padding="6dp"
+    android:layout_marginTop="18dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="348dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="23dp">
+
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="348dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
+                android:id="@+id/leftTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/progress"
+                android:textSize="20sp"
+                android:drawablePadding="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="23dp"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/loanType"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/lease_loan" />
+
+                <View
+                    android:layout_height="match_parent"
+                    android:layout_width="1dp"
+                    android:background="@color/subNormal"
+                    android:layout_marginEnd="12sp"
+                    android:layout_marginStart="12sp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/region"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/normalTypo"
+                        android:textSize="@dimen/small_medium" />
+
+                    <TextView
+                        android:id="@+id/apt"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/normalTypo"
+                        android:textSize="@dimen/small_medium" />
+
+                    <TextView
+                        android:id="@+id/size"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/normalTypo"
+                        android:textSize="@dimen/small_medium" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                android:weightSum="100"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_weight="60">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:text="대출금액"
+                        android:textColor="@color/subNormal"
+                        android:textSize="@dimen/small2"
+                        android:drawableStart="@drawable/abc1"
+                        android:drawablePadding="2dp"/>
+
+                    <TextView
+                        android:id="@+id/loanSum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/pointTypo"
+                        android:textSize="@dimen/medium" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_weight="40">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:text="금리방식"
+                        android:textColor="@color/subNormal"
+                        android:textSize="@dimen/small2"
+                        android:drawableStart="@drawable/abc2"
+                        android:drawablePadding="2dp"/>
+
+                    <TextView
+                        android:id="@+id/rateType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/pointTypo"
+                        android:textSize="@dimen/medium" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                android:weightSum="100"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_weight="60">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:text="대출실행예정일"
+                        android:textColor="@color/subNormal"
+                        android:textSize="@dimen/small2"
+                        android:drawableStart="@drawable/abc3"
+                        android:drawablePadding="2dp"/>
+
+                    <TextView
+                        android:id="@+id/loanDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/pointTypo"
+                        android:textSize="@dimen/medium" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_weight="40">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:text="직업구분"
+                        android:textColor="@color/subNormal"
+                        android:textSize="@dimen/small2"
+                        android:drawableStart="@drawable/abc4"
+                        android:drawablePadding="2dp"/>
+
+                    <TextView
+                        android:id="@+id/jobType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/pointTypo"
+                        android:textSize="@dimen/medium" />
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="134dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:text="전화번호"
+                    android:textColor="@color/subNormal"
+                    android:textSize="@dimen/small"
+                    android:drawableStart="@drawable/abc5"
+                    android:drawablePadding="2dp"/>
+
+                <TextView
+                    android:id="@+id/telephone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/pointTypo"
+                    android:textSize="@dimen/medium" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

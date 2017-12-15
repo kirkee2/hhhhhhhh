@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.beta.tacademy.hellomoneycustomer">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:name=".common.HelloMoneyCustomerApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustResize|stateHidden"
+        tools:replace="android:allowBackup">
+
+        <service android:name=".module.push.HelloMoneyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".module.push.HelloMoneyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".activity.SplashScreenActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.IntroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RequestQuotationActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".activity.MyQuotationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.QuotationDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.OperationGuideActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PostscriptDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CounselorDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FAQActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ContactActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.KakaoWebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SelectRegionAptSizeActivity"
+            android:screenOrientation="portrait"/>
+    </application>
+
+</manifest>

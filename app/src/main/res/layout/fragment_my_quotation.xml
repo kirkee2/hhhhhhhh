@@ -1,0 +1,46 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.beta.tacademy.hellomoneycustomer.viewPagers.myQuotationViewPager.MyQuotationFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/basement"
+        android:layout_gravity="center"
+        android:scrollbars="vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:clipToPadding="false"/>
+
+    <RelativeLayout
+        android:id="@+id/noResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff5f5f5"
+        android:paddingTop="6dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/image1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/no_result"
+            android:layout_marginTop="126dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/noResultText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/image1"
+            android:textSize="15sp"
+            android:textColor="#b7b7b7"
+            android:layout_marginTop="34dp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+</FrameLayout>
