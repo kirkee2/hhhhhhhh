@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
@@ -26,13 +26,56 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/errorView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/line_color"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="125dp"
+                android:layout_height="92dp"
+                android:layout_marginTop="146dp"
+                android:src="@drawable/wifi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                android:text="인터넷 열결을 다시 확인해보세요"
+                android:textColor="#b7b7b7"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+            <Button
+                android:id="@+id/networkNotWorking"
+                android:layout_width="136dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="20dp"
+                android:text="다시 시도하기"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                android:background="#ff24aaf2"
+                android:textSize="17sp"
+                android:textColor="#b2ffffff"
+                style="@style/Widget.AppCompat.Button.Borderless"/>
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/basement" />
-
+            android:background="#ebebeb" />
     </LinearLayout>
 
     <ProgressBar

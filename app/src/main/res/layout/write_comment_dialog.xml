@@ -93,7 +93,7 @@
                 android:textSize="@dimen/medium" />
 
             <TextView
-                android:id="@id/writeComment"
+                android:id="@+id/writeComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

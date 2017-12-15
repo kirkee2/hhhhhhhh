@@ -1,4 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="76dp"
+    android:background="#ebebeb"
+    android:orientation="vertical"
+    android:layout_marginTop="30dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:background="#ebebeb"
+        android:orientation="horizontal"
+        android:paddingTop="15dp">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#ebebeb"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/finalQuotationCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="접수"
+                android:textColor="#808080"
+                android:textSize="12.7sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#ebebeb"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/minRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="최저금리"
+                android:textColor="#808080"
+                android:textSize="12.7sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#ebebeb"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/maxPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="최고금액"
+                android:textColor="#808080"
+                android:textSize="12.7sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout><!--
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -107,4 +196,4 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-</LinearLayout>
+</LinearLayout>-->

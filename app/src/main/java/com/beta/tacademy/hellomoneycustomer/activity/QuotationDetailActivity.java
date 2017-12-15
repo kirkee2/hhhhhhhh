@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.common.CommonBaseActivity;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
@@ -45,11 +47,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class QuotationDetailActivity extends AppCompatActivity {
+import static com.beta.tacademy.hellomoneycustomer.common.util.ToastUtil.networkError;
+import static com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager.NETWORK_FAIL;
+import static com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager.NETWORK_SUCCESS;
+
+public class QuotationDetailActivity extends CommonBaseActivity {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private QuotationDetailRecyclerViewAdapter quotationDetailRecyclerViewAdapter;
     private ProgressBar progressBar;
+    private ConstraintLayout errorView;
     private int quotationDetailId;
     private QuotationDetailHeaderObject quotationDetailHeaderObject;
     private ArrayList<QuotationDetailObject> quotationDetailObjectArrayList;
@@ -58,7 +65,11 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private QuotationDetail quotationDetail;
     private int position;
     private int myPage;
+    private Button networkNotWorkingButton;
 
+
+    private boolean isQuotationFeedback;
+    private boolean isQuotationDetail;
     public Timer timer;
     public TimerTask timerTask;
 
@@ -66,45 +77,24 @@ public class QuotationDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quotation_detail);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-        activity = this;
-        Intent intent = getIntent();
-        quotationDetailId = intent.getIntExtra("id",-1);
-        position = intent.getIntExtra("position",0);
-        myPage = intent.getIntExtra("myPage",0);
+        initView();
+        initFirstVariable();
+        initListener();
+        initNetwork();
 
-        quotationFeedback = new QuotationFeedback();
-        quotationDetail = new QuotationDetail();
-
-        quotationDetailObjectArrayList = new ArrayList<>();
-
-        setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
-
-        //Toolbar 설정
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
-
-        toolbar.setTitle(getResources().getString(R.string.quotation_detail));
-        toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
-
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        //addItems();
-        quotationDetail.execute();
+        startNetwork();
    }
 
     public void update(){
         quotationDetailObjectArrayList = new ArrayList<>();
-        quotationDetail = new QuotationDetail();
-        quotationDetail.execute();
+
+        if (quotationDetail.getStatus() != AsyncTask.Status.RUNNING) {
+            if (quotationDetail.getStatus() == AsyncTask.Status.FINISHED) {
+                quotationDetail = new QuotationDetail();
+            }
+            quotationDetail.execute();
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -123,8 +113,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //시작 전에 ProgressBar를 보여주어 사용자와 interact
-            progressBar.setVisibility(View.VISIBLE);
+            progressOnGoing(true);
         }
 
         @Override
@@ -132,8 +121,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
             boolean flag;
             Response response = null;
             OkHttpClient toServer;
-
-            JSONObject jsonObject = null;
+            JSONObject jsonObject;
 
             try{
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
@@ -152,51 +140,40 @@ public class QuotationDetailActivity extends AppCompatActivity {
 
                 if(flag){ //성공했다면
                     returedJSON = response.body().string();
-
-                    try {
-                        jsonObject = new JSONObject(returedJSON);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
+                    jsonObject = new JSONObject(returedJSON);
                 }else{
-                    return 2;
+                    return NETWORK_FAIL;
                 }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
+
+                if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                    JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
+
+                    quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.optInt("request_id"),data.optString("status"),data.optString("end_time"),data.optString("loan_type"),data.optString("region_1"),data.optString("region_2"),data.optString("region_3"),data.getString("apt_name"),data.optDouble("apt_size_supply") + "(" + data.optDouble("apt_size_exclusive") +")",data.optInt("loan_amount"),data.optString("interest_rate_type"),data.optString("scheduled_time"),data.getString("job_type"),data.getString("phone_number"),data.optBoolean("is_reviewed"),data.optInt("selected_estimate_id"),data.optString("content"),data.optDouble("score"),data.optString("review_register_time"),data.optString("name"),data.optString("photo"),data.optString("company_name"),data.optString("agent_id"));
+
+                    return NETWORK_SUCCESS;
+                }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
+                    return NETWORK_SUCCESS;
+                }else{
+                    return NETWORK_FAIL;
+                }
+            }catch (Exception e) {
+                return NETWORK_FAIL;
             } finally{
                 if(response != null) {
                     response.close(); //3.* 이상에서는 반드시 닫아 준다.
                 }
             }
-
-            if(jsonObject != null){
-                try {
-                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
-                        JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
-
-                        quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.optInt("request_id"),data.optString("status"),data.optString("end_time"),data.optString("loan_type"),data.optString("region_1"),data.optString("region_2"),data.optString("region_3"),data.getString("apt_name"),data.optDouble("apt_size_supply") + "(" + data.optDouble("apt_size_exclusive") +")",data.optInt("loan_amount"),data.optString("interest_rate_type"),data.optString("scheduled_time"),data.getString("job_type"),data.getString("phone_number"),data.optBoolean("is_reviewed"),data.optInt("selected_estimate_id"),data.optString("content"),data.optDouble("score"),data.optString("review_register_time"),data.optString("name"),data.optString("photo"),data.optString("company_name"),data.optString("agent_id"));
-
-                        return 0;
-                    }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
-                        return 1;
-                    }else{
-                        return 3;
-                    }
-                } catch (JSONException e) {
-                    return 5;
-                }
-            }else{
-                return 4;
-            }
         }
 
         @Override
         protected void onPostExecute(Integer result) {
-            if(result == 0 || result == 1){
-                quotationFeedback = new QuotationFeedback();
-                quotationFeedback.execute();
+            progressOnGoing(false);
+
+            if(result == NETWORK_SUCCESS){
+                isQuotationDetail = true;
+                isNetworkSuccess();
             }else{
+                networkNotWorking();
             }
         }
     }
@@ -204,6 +181,8 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private class QuotationFeedback extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPreExecute() {
+            progressOnGoing(true);
+
             super.onPreExecute();
         }
 
@@ -212,7 +191,6 @@ public class QuotationDetailActivity extends AppCompatActivity {
             boolean flag;
             Response response = null;
             OkHttpClient toServer;
-
             JSONObject jsonObject = null;
 
             try{
@@ -232,59 +210,43 @@ public class QuotationDetailActivity extends AppCompatActivity {
 
                 if(flag){ //성공했다면
                     returedJSON = response.body().string();
-
-                    try {
-                        jsonObject = new JSONObject(returedJSON);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
+                    jsonObject = new JSONObject(returedJSON);
                 }else{
-                    return 2;
+                    return NETWORK_FAIL;
                 }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
+
+                if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                    JSONArray data= jsonObject.getJSONArray(getResources().getString(R.string.url_data));
+
+                    for(int i = 0 ; i < data.length(); i++){
+                        JSONObject jsonData = (JSONObject)data.get(i);
+                        quotationDetailObjectArrayList.add(new QuotationDetailObject(jsonData.getInt("estimate_id"),jsonData.getString("company_name"),jsonData.getString("name"),jsonData.getString("interest_rate_type"),jsonData.getDouble("interest_rate"),jsonData.getString("photo")));
+                        quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
+                    }
+
+                    return NETWORK_SUCCESS;
+                }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
+                    return NETWORK_SUCCESS;
+                }else{
+                    return NETWORK_FAIL;
+                }
             } catch (Exception e) {
+                return NETWORK_FAIL;
             } finally{
                 if(response != null) {
                     response.close(); //3.* 이상에서는 반드시 닫아 준다.
                 }
             }
-
-            if(jsonObject != null){
-                try {
-                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
-                        JSONArray data= jsonObject.getJSONArray(getResources().getString(R.string.url_data));
-
-                        for(int i = 0 ; i < data.length(); i++){
-                            try {
-                                JSONObject jsonData = (JSONObject)data.get(i);
-                                quotationDetailObjectArrayList.add(new QuotationDetailObject(jsonData.getInt("estimate_id"),jsonData.getString("company_name"),jsonData.getString("name"),jsonData.getString("interest_rate_type"),jsonData.getDouble("interest_rate"),jsonData.getString("photo")));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        return 0;
-                    }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
-                        return 1;
-                    }else{
-                        return 3;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-                return 4;
-            }
-
-            return 5;
         }
 
         @Override
         protected void onPostExecute(Integer result) {
-            if(result == 0 || result == 1){
+            progressOnGoing(false);
+
+            if(result == NETWORK_SUCCESS){
+
                 //isReviewed == true -> Yes
-                if(quotationDetailHeaderObject.getOngoingStatus().equals("대출실행완료")){
+               /* if(quotationDetailHeaderObject.getOngoingStatus().equals("대출실행완료")){
                     if(!quotationDetailHeaderObject.isReviewed()) {
                         quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity, QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT, quotationDetailHeaderObject);
                         recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
@@ -310,11 +272,18 @@ public class QuotationDetailActivity extends AppCompatActivity {
                             recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                         }
                     }
+                }*/
+
+                quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,quotationDetailHeaderObject);
+                quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
+                for(QuotationDetailObject tmp : quotationDetailObjectArrayList){
+                    if(tmp.getId() == quotationDetailHeaderObject.getSelectedEstimateId()){
+                        quotationDetailRecyclerViewAdapter.addSubHeader(tmp);
+                    }else{
+                        quotationDetailRecyclerViewAdapter.addItem(tmp);
+                    }
                 }
-
-                //quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
-
-                if(quotationDetailHeaderObject.getSelectedEstimateId() == 0){
+                /*if(quotationDetailHeaderObject.getSelectedEstimateId() == 0){
                     quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
                 }else{
                     for(QuotationDetailObject tmp : quotationDetailObjectArrayList){
@@ -324,12 +293,13 @@ public class QuotationDetailActivity extends AppCompatActivity {
                             quotationDetailRecyclerViewAdapter.addItem(tmp);
                         }
                     }
-                }
+                }*/
 
+                isQuotationFeedback = true;
+                isNetworkSuccess();
             }else{
+                networkNotWorking();
             }
-
-            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -366,10 +336,122 @@ public class QuotationDetailActivity extends AppCompatActivity {
             quotationFeedback.cancel(true);
         }
 
-        if(timer == null){
-
-        }else{
+        if(timer != null){
             timer.cancel();
+        }
+    }
+
+    @Override
+    protected void initView() {
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        errorView = (ConstraintLayout) findViewById(R.id.errorView);
+        networkNotWorkingButton = (Button) findViewById(R.id.networkNotWorking);
+
+        setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
+
+        //Toolbar 설정
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        toolbar.setTitle(getResources().getString(R.string.quotation_detail));
+        toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
+    }
+
+    @Override
+    protected void initVariable() {
+        quotationDetailObjectArrayList = new ArrayList<>();
+
+        isQuotationFeedback = false;
+        isQuotationDetail = false;
+
+    }
+
+    private void initFirstVariable(){
+        activity = this;
+        Intent intent = getIntent();
+        quotationDetailId = intent.getIntExtra("id",-1);
+        position = intent.getIntExtra("position",0);
+        myPage = intent.getIntExtra("myPage",0);
+
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    @Override
+    protected void initListener() {
+        networkNotWorkingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNetwork();
+            }
+        });
+
+    }
+
+    @Override
+    protected void initNetwork() {
+        quotationFeedback = new QuotationFeedback();
+        quotationDetail = new QuotationDetail();
+    }
+
+    @Override
+    protected void stopNetWork() {
+        if (quotationFeedback.getStatus() == AsyncTask.Status.RUNNING) {
+            quotationFeedback.cancel(true);
+        }
+
+        if (quotationDetail.getStatus() == AsyncTask.Status.RUNNING) {
+            quotationDetail.cancel(true);
+        }
+    }
+
+    @Override
+    public void progressOnGoing(boolean isOngoing) {
+        if(isOngoing){
+            progressBar.setVisibility(View.VISIBLE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void startNetwork() {
+        initVariable();
+
+        if (quotationDetail.getStatus() != AsyncTask.Status.RUNNING) {
+            if (quotationDetail.getStatus() == AsyncTask.Status.FINISHED) {
+                quotationDetail = new QuotationDetail();
+            }
+            quotationDetail.execute();
+        }
+
+        if (quotationFeedback.getStatus() != AsyncTask.Status.RUNNING) {
+            if (quotationFeedback.getStatus() == AsyncTask.Status.FINISHED) {
+                quotationFeedback = new QuotationFeedback();
+            }
+            quotationFeedback.execute();
+        }
+    }
+
+    @Override
+    protected void networkNotWorking() {
+        networkError(getApplicationContext());
+        stopNetWork();
+
+        errorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected synchronized void isNetworkSuccess() {
+        if(isQuotationDetail && isQuotationFeedback){
+            errorView.setVisibility(View.GONE);
         }
     }
 }

@@ -1,4 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="250dp"
+    android:layout_width="344dp"
+    android:layout_marginTop="8dp"
+    android:layout_gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="14dp"
+        android:paddingStart="14dp">
+
+        <TextView
+            android:id="@+id/apt"
+            android:layout_marginTop="22dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:textSize="15.3sp"
+            android:textColor="#24aaf2"/>
+
+        <View
+            android:layout_width="316dp"
+            android:layout_height="1dp"
+            android:background="#e2e6e5"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="28dp"/>
+
+        <RelativeLayout
+            android:layout_marginTop="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13.3sp"
+                android:textColor="#333333"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:text="대출종류" />
+
+            <TextView
+                android:id="@+id/loanType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13.3sp"
+                android:textColor="#333333"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="end" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13.3sp"
+                android:textColor="#333333"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:text="선호금리" />
+
+            <TextView
+                android:id="@+id/rateType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13.3sp"
+                android:textColor="#333333"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="end" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13.3sp"
+                android:textColor="#333333"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:text="신청금액" />
+
+            <TextView
+                android:id="@+id/loanSum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13.3sp"
+                android:textColor="#333333"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="end" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13.3sp"
+                android:textColor="#333333"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:text="실행일자" />
+
+            <TextView
+                android:id="@+id/loanDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13.3sp"
+                android:textColor="#333333"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="end"/>
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+<!--
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -143,4 +285,4 @@
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
     </FrameLayout>
-</LinearLayout>
+</LinearLayout>-->
