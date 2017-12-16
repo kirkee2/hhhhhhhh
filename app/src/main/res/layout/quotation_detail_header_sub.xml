@@ -4,7 +4,7 @@
     android:layout_height="76dp"
     android:background="#ebebeb"
     android:orientation="vertical"
-    android:layout_marginTop="30dp">
+    android:layout_marginTop="15dp">
 
     <LinearLayout
         android:layout_width="wrap_content"

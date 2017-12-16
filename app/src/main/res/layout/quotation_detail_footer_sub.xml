@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:orientation="vertical"
+    android:background="#ebebeb">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11.7dp"
+        android:textColor="#808080"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="최대 15개의 견적을 받아볼 수 있습니다.\n각 견적을 클릭해서 상세내용을 확인할 수 있습니다." />
+</LinearLayout>

@@ -5,14 +5,14 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/basement"
-    android:orientation="vertical"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp">
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="344dp"
         android:layout_height="140dp"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
